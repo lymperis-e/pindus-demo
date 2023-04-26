@@ -1,0 +1,576 @@
+{
+  "version": 8,
+  "name": "FROST-ALERTS",
+  "metadata": {
+    "maputnik:renderer": "mbgljs"
+  },
+  "center": [
+    24.26,
+    37.94
+  ],
+  "zoom": 4,
+  "pitch": 0,
+  "sources": {
+    "eox-basemap": {
+      "type": "raster",
+      "tiles": [
+        "https://tiles.maps.eox.at/?&service=WMS&request=GetMap&layers=s2cloudless_3857&styles=&format=image%2Fjpeg&transparent=false&version=1.1.1&tiled=true&dpi=120&map_resolution=120&width=256&height=256&srs=EPSG%3A3857&bbox={bbox-epsg-3857}"
+      ],
+      "tileSize": 256
+    },
+    "worldImagery": {
+      "type": "raster",
+      "tiles": [
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+      ],
+      "tileSize": 256
+    },
+    "dimoi": {
+      "type": "vector",
+      "tiles": [
+        "https://frost.getmap.gr/statictiles/dimoi/{z}/{x}/{y}.pbf"
+      ],
+      "promoteId": "fid"
+    },
+    "layers": {
+      "type": "vector",
+      "tiles": [
+        "https://frost.getmap.gr/statictiles/layers/{z}/{x}/{y}.pbf"
+      ],
+      "promoteId": "fid"
+    },
+    "terrainSource": {
+      "url": "https://api.maptiler.com/tiles/terrain-rgb/tiles.json?key=KwsbibOCHPMbVBRMI5pa",
+      "type": "raster-dem"
+    },
+    "contours": {
+      "url": "https://api.maptiler.com/tiles/contours/tiles.json?key=KwsbibOCHPMbVBRMI5pa",
+      "type": "vector"
+    },
+    "ktima":{
+      "type": "raster",
+      "tiles": [
+     "http://gis.ktimanet.gr/wms/wmsopen/wmsserver.aspx?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=jpeg&TRANSPARENT=true&SRS=EPSG:900913&LAYERS=basic&TILED=true&WIDTH=256&HEIGHT=256&CRS=EPSG:3857&STYLES=&BBOX={bbox-epsg-3857}"
+      ],
+      "tileSize": 256
+    },
+    "bing":{
+      "type":"raster",
+      "tiles":[
+        "https://ecn.t3.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=1"
+      ],
+      "tileSize": 256
+    },
+    "thunderforest":{
+      "type": "raster",
+      "tiles": [
+        "https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png"
+      ],
+      "tileSize": 256
+    }
+  },
+  "glyphs": "https://frost.getmap.gr/fonts/{fontstack}/{range}.pbf",
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "background-color": "#0a0e18"
+      }
+    },
+    {
+      "id": "esri-basemap",
+      "type": "raster",
+      "source": "worldImagery",
+      "layout": {
+        "visibility": "none"
+      }
+    },
+    {
+      "id": "ktima-basemap",
+      "type": "raster",
+      "source": "ktima",
+      "paint": {
+        "raster-contrast": 0.3,
+        "raster-brightness-max": 0.7
+      },
+      "layout": {
+        "visibility": "none"
+      }
+    },
+    {
+      "id": "bing-basemap",
+      "type": "raster",
+      "source": "bing",
+      "layout": {
+        "visibility": "none"
+      }
+    },
+      {
+        "id": "mask-layer",
+        "type": "fill",
+        "source": "layers",
+        "source-layer": "mask",
+        "layout": {
+          "visibility": "visible"
+        },
+        "paint": {
+          "fill-color": "rgba(7, 11, 17, 1)",
+          "fill-opacity": 0.7
+        }
+      },
+      {
+        "id": "roads-primary",
+        "type": "line",
+        "source": "layers",
+        "source-layer": "roads",
+        "minzoom": 10,
+        "filter": [
+          "all",
+          [
+            "==",
+            "fclass",
+            "primary"
+          ]
+        ],
+        "paint": {
+          "line-color": "rgba(165, 0, 0, 0.54)",
+          "line-width": 1
+        }
+      },
+      {
+        "id": "roads-motorway",
+        "type": "line",
+        "source": "layers",
+        "source-layer": "roads",
+        "minzoom": 9,
+        "filter": [
+          "all",
+          [
+            "==",
+            "fclass",
+            "motorway"
+          ]
+        ],
+        "paint": {
+          "line-color": "rgba(132, 0, 0, 0.63)",
+          "line-width": 3,
+          "line-blur": 1
+        }
+      },
+      {
+        "id": "residential",
+        "type": "fill",
+        "source": "layers",
+        "source-layer": "residential",
+        "paint": {
+          "fill-color": "rgba(113, 72, 0, 0.4)"
+        }
+      },
+      {
+        "id": "dimoi-fill",
+        "type": "fill",
+        "source": "layers",
+        "source-layer": "dimoi",
+        "minzoom": 3,
+        "maxzoom": 16,
+        "paint": {
+          "fill-color": "rgba(0,0,0,0)",
+          "fill-opacity": {
+            "stops": [
+              [
+                6,
+                1
+              ],
+              [
+                7,
+                0.5
+              ],
+              [
+                11,
+                0.1
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "id": "dimoi-boundaries",
+        "type": "line",
+        "source": "dimoi",
+        "source-layer": "dimoi",
+        "minzoom": 3,
+        "maxzoom": 16,
+        "paint": {
+          "line-color": "#FFFFFF",
+          "line-dasharray": {
+            "stops": [
+              [
+                6,
+                [
+                  1
+                ]
+              ],
+              [
+                8,
+                [
+                  2,
+                  3
+                ]
+              ]
+            ]
+          },
+          "line-width": {
+            "stops": [
+              [
+                9,
+                0.6
+              ],
+              [
+                12,
+                3
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "id": "dimoi-hover-selection",
+        "type": "line",
+        "source": "dimoi",
+        "source-layer": "dimoi",
+        "minzoom": 3,
+        "maxzoom": 11,
+        "paint": {
+          "line-color": "#111827",
+          "line-width": 3,
+          "line-opacity": [
+            "case",
+            [
+              "boolean",
+              [
+                "feature-state",
+                "hover"
+              ],
+              false
+            ],
+            1,
+            0
+          ]
+        }
+      },
+      {
+        "id": "islands-labels",
+        "type": "symbol",
+        "source": "layers",
+        "source-layer": "labels",
+        "minzoom": 6,
+        "maxzoom": 9,
+        "filter": [
+          "all",
+          [
+            "==",
+            "category",
+            "island"
+          ]
+        ],
+        "layout": {
+          "text-field": [
+            "get",
+            "ONOMA"
+          ],
+          "text-font": [
+            "Open Sans Light"
+          ],
+          "icon-text-fit": "width",
+          "icon-rotation-alignment": "map",
+          "text-size": [
+            "*",
+            [
+              "get",
+              "size"
+            ],
+            1
+          ],
+          "text-anchor": "top",
+          "text-justify": "center",
+          "visibility": "visible",
+          "text-offset": [
+            0,
+            0
+          ]
+        },
+        "paint": {
+          "text-color": "black",
+          "text-halo-color": "rgba(180, 180, 180, 1)",
+          "text-halo-width": 0.8,
+          "text-halo-blur": 0.2
+        }
+      },
+      {
+        "id": "other-places",
+        "type": "symbol",
+        "source": "layers",
+        "source-layer": "other_places",
+        "minzoom": 9,
+        "maxzoom": 20,
+        "filter": [
+          "all",
+          [
+            "!in",
+            "fclass",
+            "city",
+            "island"
+          ]
+        ],
+        "layout": {
+          "text-field": [
+            "get",
+            "ONOMA"
+          ],
+          "text-size": {
+            "stops": [
+              [
+                9,
+                9
+              ],
+              [
+                11,
+                12
+              ]
+            ]
+          },
+          "visibility": "visible",
+          "text-font": [
+            "literal",
+            [
+              "Open Sans Regular",
+              "Arial Unicode MS Regular"
+            ]
+          ],
+          "text-line-height": 1,
+          "text-max-width": 0,
+          "symbol-placement": "point",
+          "symbol-z-order": "auto",
+          "text-padding": {
+            "stops": [
+              [
+                9,
+                50
+              ],
+              [
+                12,
+                10
+              ]
+            ]
+          },
+          "text-justify": "center",
+          "icon-allow-overlap": false,
+          "icon-ignore-placement": false,
+          "text-allow-overlap": false,
+          "text-ignore-placement": false,
+          "symbol-spacing": 50,
+          "symbol-avoid-edges": false
+        },
+        "paint": {
+          "text-color": "hsl(0, 0%, 100%)",
+          "text-halo-color": "hsl(0, 0%, 25%)",
+          "text-halo-width": 2,
+          "icon-halo-width": 0
+        }
+      },
+      {
+        "id": "town-points",
+        "type": "circle",
+        "source": "layers",
+        "source-layer": "labels",
+        "minzoom": 6,
+        "maxzoom": 12,
+        "filter": [
+          "all",
+          [
+            "==",
+            "category",
+            "city"
+          ],
+          [
+            "<=",
+            "size",
+            9
+          ]
+        ],
+        "layout": {
+          "visibility": "visible"
+        },
+        "paint": {
+          "circle-radius": [
+            "/",
+            [
+              "get",
+              "size"
+            ],
+            4
+          ],
+          "circle-color": "black"
+        }
+      },
+      {
+        "id": "town-labels",
+        "type": "symbol",
+        "source": "layers",
+        "source-layer": "labels",
+        "minzoom": 6,
+        "maxzoom": 12,
+        "filter": [
+          "all",
+          [
+            "==",
+            "category",
+            "city"
+          ],
+          [
+            "<=",
+            "size",
+            9
+          ]
+        ],
+        "layout": {
+          "text-field": [
+            "get",
+            "ONOMA"
+          ],
+          "text-font": [
+            "Open Sans Bold",
+            "Roboto Black",
+            "Metropolis Black"
+          ],
+          "icon-text-fit": "width",
+          "icon-rotation-alignment": "map",
+          "text-size": [
+            "*",
+            1.6,
+            [
+              "get",
+              "size"
+            ]
+          ],
+          "text-anchor": "bottom",
+          "text-justify": "center",
+          "text-offset": [
+            0,
+            -0.5
+          ],
+          "visibility": "visible",
+          "text-allow-overlap": false,
+          "text-ignore-placement": false
+        },
+        "paint": {
+          "text-color": "black",
+          "text-halo-color": "white",
+          "text-halo-width": 0.8,
+          "text-halo-blur": 0.2
+        }
+      },
+      {
+        "id": "city-points",
+        "type": "circle",
+        "source": "layers",
+        "source-layer": "labels",
+        "minzoom": 5,
+        "maxzoom": 10,
+        "filter": [
+          "all",
+          [
+            "==",
+            "category",
+            "city"
+          ],
+          [
+            ">=",
+            "size",
+            10
+          ]
+        ],
+        "layout": {
+          "visibility": "visible"
+        },
+        "paint": {
+          "circle-radius": [
+            "/",
+            [
+              "get",
+              "size"
+            ],
+            4
+          ],
+          "circle-color": "rgba(0, 0, 0, 0.41)"
+        }
+      },
+      {
+        "id": "city-labels",
+        "type": "symbol",
+        "source": "layers",
+        "source-layer": "labels",
+        "minzoom": 3,
+        "maxzoom": 17,
+        "filter": [
+          "all",
+          [
+            "==",
+            "category",
+            "city"
+          ],
+          [
+            ">=",
+            "size",
+            10
+          ]
+        ],
+        "layout": {
+          "text-field": [
+            "get",
+            "ONOMA"
+          ],
+          "text-font": [
+            "literal",
+            [
+              "Roboto Black",
+              "Open Sans Bold",
+              "Metropolis Black"
+            ]
+          ],
+          "icon-text-fit": "width",
+          "icon-rotation-alignment": "map",
+          "text-size": [
+            "*",
+            1.3,
+            [
+              "get",
+              "size"
+            ]
+          ],
+          "text-anchor": "bottom",
+          "text-justify": "center",
+          "text-offset": [
+            0,
+            -0.5
+          ],
+          "visibility": "visible",
+          "text-line-height": 1.2,
+          "text-letter-spacing": 0,
+          "icon-allow-overlap": true,
+          "icon-ignore-placement": true
+        },
+        "paint": {
+          "text-color": "black",
+          "text-halo-color": "white",
+          "text-halo-width": 0.8,
+          "text-halo-blur": 0.2
+        }
+      }
+    ],
+    "id": "emy-alerts-style"
+  }
