@@ -104,7 +104,10 @@
     {
       "id": "bing-basemap",
       "type": "raster",
-      "source": "bing"
+      "source": "bing",
+      "layout": {
+        "visibility": "none"
+      }
     },
       {
         "id": "mask-layer",
