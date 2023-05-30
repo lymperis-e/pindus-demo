@@ -15,7 +15,7 @@ const mapStyle = {
         type: "vector",
         url: "pmtiles://pindus_trail.pmtiles",
         attribution: '<a href="https://terrapindus.gr">Terra Pindus</a>'
-      }
+      },
       //"terrainSource": {
       //  "url": `mapbox://mapbox.terrain-rgb`,
       //  "type": "raster-dem",

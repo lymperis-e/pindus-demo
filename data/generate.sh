@@ -2,7 +2,7 @@
 
 
 # 2. ELSTAT data
-tippecanoe -o trail.pmtiles -zg --drop-densest-as-needed --extend-zooms-if-still-dropping \
+tippecanoe -o trail.pmtiles --maximum-zoom=18 --drop-densest-as-needed --extend-zooms-if-still-dropping \
 --generate-ids --force --name "Trail"  PATH.geojson
 
 

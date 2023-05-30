@@ -12,7 +12,7 @@ const layers = [
     "source": "protomaps",
     "source-layer": "earth",
     "paint": {
-      "fill-color": "#e8e5d8"
+      "fill-color": "#dec494"
     }
   },
   {
@@ -112,7 +112,8 @@ const layers = [
       ]
     ],
     "paint": {
-      "fill-color": "#c1d899"
+      "fill-color": "#7c9772",
+      "fill-opacity": 0.6
     }
   },
   {
@@ -186,7 +187,8 @@ const layers = [
       "aerodrome"
     ],
     "paint": {
-      "fill-color": "#dbe7e7"
+      "fill-color": "#9ca3c1",
+      "fill-opacity": 0.7
     }
   },
   {
@@ -230,13 +232,14 @@ const layers = [
       "fill-color": "#d1d9d9"
     }
   },
+  
   {
     "id": "water",
     "type": "fill",
     "source": "protomaps",
     "source-layer": "water",
     "paint": {
-      "fill-color": "#a4cae1"
+      "fill-color": "#87b1a8"
     }
   },
   {
@@ -1154,7 +1157,7 @@ const layers = [
       ]
     ],
     "paint": {
-      "line-color": "#fefffc",
+      "line-color": "#ff9f80",
       "line-width": [
         "interpolate",
         [
@@ -1739,51 +1742,7 @@ const layers = [
   },
 
 
-  {
-    "id": "trail",
-    "type": "line",
-    "source": "pindustrail",
-    "source-layer": "PATH",
-    "paint": {
-      "line-color": "orange",
-      "line-width": 2
-    }
-  },
-  {
-    "id": "stops",
-    "type": "circle",
-    "source": "pindustrail",
-    "source-layer": "STOPS",
-    "paint": {
-      "circle-radius": 2,
-      "circle-stroke-width": 2,
-      "circle-opacity": 0.8,
-      "circle-stroke-color": "white",
-      "circle-color": "#081424"
-    },
-  },
-  {
-    "id": "stops-labels",
-    "type": "symbol",
-    "source": "pindustrail",
-    "source-layer": "STOPS",
-    "minzoom": 10,
-    "layout": {
-      "text-field": "{Name}",
-      "text-font": [
-        "NotoSans-Bold"
-      ],
-      "text-variable-anchor": [
-        "bottom-left"
-      ],
-      "text-radial-offset": 0.2,
-    },
-    "paint": {
-      "text-color": "#d97b52",
-      "text-halo-color": "white",
-      "text-halo-width": 1
-    }
-  },
+ 
 
 
   

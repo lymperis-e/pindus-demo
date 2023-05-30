@@ -31,7 +31,7 @@ function Map(props) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [styleLoaded, setStyleLoaded] = useState(false);
-  const [center, setCenter] = useState({ lng: 39.491, lat: 21.226 });
+  const [center, setCenter] = useState({ lng: 21.923, lat: 39.639 });
   const [zoom, setZoom] = useState(5.8);
 
   const { basemap, terrain, bearing } = props;
@@ -73,6 +73,65 @@ function Map(props) {
     });
   };
 
+  function addTrail(){
+    if (!map.current || !styleLoaded) return
+    map.current.addSource('pindustrail', {
+      type: "vector",
+      url: "pmtiles://pindus_trail.pmtiles",
+      attribution: '<a href="https://terrapindus.gr">Terra Pindus</a>'
+    });
+
+    map.current.addLayer({
+    "id": "trail",
+    "type": "line",
+    "source": "pindustrail",
+    "source-layer": "PATH",
+    "paint": {
+      "line-color": "orange",
+      "line-width": 3
+    }
+  });
+
+  map.current.addLayer(
+    {
+      "id": "stops",
+      "type": "circle",
+      "source": "pindustrail",
+      "source-layer": "STOPS",
+      "paint": {
+        "circle-radius": 6,
+        "circle-stroke-width": 2,
+        "circle-opacity": 0.8,
+        "circle-stroke-color": "white",
+        "circle-color": "#081424"
+      },
+    }
+  )
+
+  map.current.addLayer({
+    "id": "stops-labels",
+    "type": "symbol",
+    "source": "pindustrail",
+    "source-layer": "STOPS",
+    "minzoom": 10,
+    "layout": {
+      "text-field": "{Name}",
+      "text-font": [
+        "NotoSans-Bold"
+      ],
+      "text-variable-anchor": [
+        "bottom-left"
+      ],
+      "text-radial-offset": 0.2,
+    },
+    "paint": {
+      "text-color": "#d97b52",
+      "text-halo-color": "white",
+      "text-halo-width": 1
+    }
+  })
+  }
+
   function handleMapClick(e) {
     let latlng = e.lngLat;
 
@@ -105,6 +164,7 @@ function Map(props) {
 
   useEffect(() => {
     addTerrainSource();
+    addTrail();
   }, [styleLoaded]);
 
   useEffect(() => {
@@ -116,7 +176,7 @@ function Map(props) {
     if (map.current) return
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: mapStyle, //'mapbox://styles/pindustrail/cli90nrda00t101qufyz2figk', 
+      style: 'mapbox://styles/pindustrail/cli90nrda00t101qufyz2figk', //mapStyle, //
       center: center,
       zoom: zoom,
       hash: true,
