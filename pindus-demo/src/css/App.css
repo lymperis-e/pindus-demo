@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+#root {
+  position: absolute;
+  text-align: center;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.App{
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+
+#map-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+.maplibregl-ctrl-top-right{
+  display: none;
+}
+
+.btn-neutral {
+  background-color: #e9e7e7 !important;
+  color: inherit;
+}
+
+.mapboxgl-ctrl-group:not(:empty), .maplibregl-ctrl-group:not(:empty){
+  box-shadow: none;
+  @apply rounded-lg shadow shadow-lg;
+}
+.mapboxgl-ctrl-group, .maplibregl-ctrl-group{
+  box-shadow: none;
+}
+.mapboxgl-legend-list{
+  overflow-y: auto !important;
+  box-shadow: none;
+  @apply p-5 ;
+  @apply pr-8 ;
+  @apply rounded-lg ;
+  @apply shadow ;
+  @apply shadow-lg ;
+}
+
+.mapboxgl-legend-close-button{
+@apply btn btn-circle bg-primary;
+}
+
+/*
+.mapboxgl-legend-onlyRendered-checkbox{
+  @apply checkbox checkbox-sm
+}
+.mapboxgl-legend-onlyRendered-label{
+  @apply text-sm prose
+}*/
